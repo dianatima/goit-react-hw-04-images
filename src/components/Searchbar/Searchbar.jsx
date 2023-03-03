@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Component } from "react";
+import { useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import {
   SearchbarWrap,
@@ -10,35 +10,32 @@ import {
   SearchFormInput,
 } from "./Searchbar.styled";
 
-export class Searchbar extends Component {
-  state = {
-    inputName: "",
-  };
+export function Searchbar({onSubmit}) {
+  const [inputName, setInputName] = useState('');
 
-  handleChange = (event) => {
+  const handleChange = (event) => {
     const { value } = event.currentTarget;
-    this.setState({ inputName: value });
+    setInputName(value);
   };
 
-  handleSubmit = (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    if (this.state.inputName.trim() === "") {
+    if (inputName.trim() === "") {
       toast.warn("🦄 Please enter something");
       return;
     }
-    this.props.onSubmit(this.state.inputName.toLocaleLowerCase());
-    this.reset();
+    onSubmit(inputName.toLocaleLowerCase());
+    reset();
   };
 
-  reset = () => {
-    this.setState({ inputName: "" });
+  const reset = () => {
+    setInputName('');
   };
 
-  render() {
     return (
       <>
         <SearchbarWrap>
-          <SearchForm onSubmit={this.handleSubmit}>
+          <SearchForm onSubmit={handleSubmit}>
             <SearchFormButton type="submit">
               <SearchFormButtonLabel>
                 <FaSearch />
@@ -50,12 +47,11 @@ export class Searchbar extends Component {
               autocomplete="off"
               // autofocus
               placeholder="Search images and photos"
-              value={this.state.inputName}
-              onChange={this.handleChange}
+              value={inputName}
+              onChange={handleChange}
             />
           </SearchForm>
         </SearchbarWrap>
       </>
     );
   }
-}
