@@ -28,6 +28,7 @@ export function App() {
     setStatus("pending");
     getImages();
     setStatus("resolved");
+    // eslint-disable-next-line 
   }, [query, page]);
 
   const getImages = async () => {
