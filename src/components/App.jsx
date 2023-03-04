@@ -29,7 +29,7 @@ export function App() {
     const getImages = async () => {
       await fetchImages(query, page)
         .then(({ hits, totalHits }) => {
-          setImages([...images, ...hits]);
+          setImages(images => (images = [...images, ...hits]));
           setTotalHits(totalHits);
         })
         .catch((error) => {
@@ -39,7 +39,8 @@ export function App() {
     };
     getImages();
     setStatus("resolved");
-  }, [query, page, images]);
+  }, [query, page]);
+
 
 
   const openModal = (largeImageURL, tags) => {
