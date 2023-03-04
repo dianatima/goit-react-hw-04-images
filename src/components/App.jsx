@@ -26,22 +26,21 @@ export function App() {
       return;
     }
     setStatus("pending");
+    const getImages = async () => {
+      await fetchImages(query, page)
+        .then(({ hits, totalHits }) => {
+          setImages([...images, ...hits]);
+          setTotalHits(totalHits);
+        })
+        .catch((error) => {
+          setError(error);
+          setStatus("rejected");
+        });
+    };
     getImages();
     setStatus("resolved");
-    // eslint-disable-next-line 
-  }, [query, page]);
+  }, [query, page, images]);
 
-  const getImages = async () => {
-    await fetchImages(query, page)
-      .then(({ hits, totalHits }) => {
-        setImages([...images, ...hits]);
-        setTotalHits(totalHits);
-      })
-      .catch((error) => {
-        setError(error);
-        setStatus("rejected");
-      });
-  };
 
   const openModal = (largeImageURL, tags) => {
     setSelectedImageUrl(largeImageURL);
